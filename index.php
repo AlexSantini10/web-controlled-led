@@ -9,20 +9,6 @@
     }
 ?> 
 
-<?php
-    if (isset($_GET['led']) && $_GET['led']=="ok"){
-        $_GET['led'] = '';
-        $command = 'sudo python /var/www/html/Led/script.py';
-        exec($command);
-
-        echo("<script> console.log('ciao') </script>");
-        if ($debug){
-            echo($command.'<br>');
-        }
-        
-    }
-?>
-
 <!DOCTYPE html>
 
 <html lang="en">
@@ -32,13 +18,13 @@
     <title>Parcheggio</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
-    <!--<script src="./script.js"></script>--->
+    <script src="./script.js"></script>
 </head>
 <body class="bg-dark">
     
     <form method="get">
         <div class="text-center" style="margin-top: 10%;">
-            <button name="led" type="submit" class="btn btn-primary" value="ok">On/Off led</button>
+            <button id="led" name="led" type="submit" class="btn btn-primary" value="ok">On/Off led</button>
         </div>
     </form>
 

@@ -1,31 +1,70 @@
 
 ledPin = 7
-iAmOnRaspberry = True
+iAmOnRaspberry = False
 debug = False
+
+ledState = False
+
+import mysql.connector
 
 if iAmOnRaspberry:
     import RPi.GPIO as GPIO
     GPIO.setwarnings(False)
+    GPIO.setmode(GPIO.BOARD)
+    GPIO.setup(ledPin, GPIO.OUT)
+    GPIO.output(ledPin, ledState)
+
 import time
 import json
 import traceback
 
+def connect():
+    mydb = mysql.connector.connect(
+        host = "localhost",
+        user = "5ATL",
+        passwd = "sistemi",
+        database = "led"
+    )
+
+    return mydb
+
+
 try:
-    read = open("led.json")
-    read_str = str(read.read())
-    read_data = json.loads(read_str)
+    toChange = 0
+    while True:
+        
+        mydb = connect()
 
-    read_data['acceso'] = not read_data['acceso']
-    if iAmOnRaspberry:
-        GPIO.setmode(GPIO.BOARD)
-        GPIO.setup(ledPin, GPIO.OUT)
-        GPIO.output(ledPin, read_data['acceso'])
+        mycursor = mydb.cursor()
 
-    if debug:
-        print(read_data['acceso'])
+        query = f"SELECT * FROM ledtable"
+        mycursor.execute(query)
+        toChange = mycursor.fetchall()
+        toChange = toChange[0][0]
+        toChange = int(toChange)
 
-    with open('led.json', 'w') as ledFile:
-        ledFile.write(json.dumps(read_data, indent = 4, sort_keys=True))
+
+        if debug:
+            print(toChange)
+
+        if toChange==1:
+
+            if debug:
+                print('cambio stato del led')
+
+            ledState = not ledState
+            
+            query = f"UPDATE ledtable SET toChange=0"
+            mycursor.execute(query)
+            mydb.commit()
+
+        if iAmOnRaspberry:
+            GPIO.output(ledPin, ledState)
+
+        mydb.close()
+        time.sleep(0.2)
+
+
 except:
     traceback.print_exc()
     if iAmOnRaspberry:
