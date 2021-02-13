@@ -28,9 +28,20 @@ def connect():
 
     return mydb
 
+def changeState(state):
+    mydb = connect()
+    mycursor = mydb.cursor()
+
+    query = f"UPDATE ledtable SET ledState={int(state)}"
+    mycursor.execute(query)
+    mydb.commit()
+
 
 try:
     toChange = 0
+
+    changeState(0)
+
     while True:
         
         mydb = connect()
@@ -60,6 +71,7 @@ try:
 
         if iAmOnRaspberry:
             GPIO.output(ledPin, ledState)
+            changeState(ledState)
 
         mydb.close()
         time.sleep(0.2)

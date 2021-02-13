@@ -1,14 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.2
+-- version 4.6.6deb5
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Creato il: Feb 13, 2021 alle 10:12
--- Versione del server: 10.4.14-MariaDB
--- Versione PHP: 7.4.10
+-- Host: localhost:3306
+-- Creato il: Feb 13, 2021 alle 11:38
+-- Versione del server: 10.3.27-MariaDB-0+deb10u1
+-- Versione PHP: 7.3.19-1~deb10u1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -28,16 +27,16 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `ledtable` (
-  `toChange` tinyint(1) NOT NULL DEFAULT 0
+  `toChange` tinyint(1) NOT NULL DEFAULT 0,
+  `ledState` tinyint(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dump dei dati per la tabella `ledtable`
 --
 
-INSERT INTO `ledtable` (`toChange`) VALUES
-(0);
-COMMIT;
+INSERT INTO `ledtable` (`toChange`, `ledState`) VALUES
+(0, 0);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
