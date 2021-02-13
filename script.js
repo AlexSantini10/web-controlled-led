@@ -21,6 +21,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     relState();
 
-    setInterval(relState, 500);
+    setInterval(relState, 200);
 
 });
